@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tales Story Typing Test</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<p class="page-title">KV Skills 2026 · Web Technology</p>
+
+<div class="game-container">
+  <div class="timeout-badge" id="timeoutBadge">⏱ TIME OUT!!</div>
+
+  <div class="game-header">
+    <h1 class="game-title">Story Typing Test</h1>
+  </div>
+
+  <div class="text-box">
+    <div class="text-display" id="textDisplay"></div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-item" id="timeStatItem">
+      Time Left: <span class="stat-value" id="timeLeft">60</span>s
+    </div>
+    <div class="stat-item">
+      Mistakes: <span class="stat-value" id="mistakeCount">0</span>
+    </div>
+    <div class="stat-item">
+      WPM: <span class="stat-value" id="wpmCount">0</span>
+    </div>
+    <button class="btn-refresh" id="refreshBtn">Refresh</button>
+  </div>
+</div>
+
+<!-- Modal: Nama -->
+<div class="modal-overlay" id="nameModal">
+  <div class="modal-box">
+    <div class="modal-header">Save Your Score</div>
+    <div class="modal-body">
+      <p>Masukkan nama anda untuk simpan WPM score.</p>
+      <input type="text" class="modal-input" id="playerNameInput" placeholder="Nama kau (kosong = Guest)" maxlength="30">
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ok" id="saveScoreBtn">OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Ranking -->
+<div class="modal-overlay" id="rankModal">
+  <div class="modal-box">
+    <div class="ranking-header">— Top 10 Rankings —</div>
+    <div class="ranking-list" id="rankingList"></div>
+    <div class="modal-footer">
+      <button class="btn-ok" id="closeRankBtn">OK</button>
+    </div>
+  </div>
+</div>
+
+<script src="paragraphs.js"></script>
+</body>
+</html>

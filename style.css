@@ -1,0 +1,332 @@
+
+  :root {
+    --bg: #f5f0e8;
+    --card-bg: #fffdf8;
+    --border: #d4c5a9;
+    --text-main: #2c2416;
+    --text-dim: #8a7a60;
+    --accent: #c0392b;
+    --accent2: #e67e22;
+    --correct: #27ae60;
+    --wrong: #e74c3c;
+    --stat-bg: #f0e9d8;
+    --btn-bg: #e8d5b0;
+    --btn-hover: #d4c090;
+    --modal-bg: rgba(20,15,8,0.75);
+    --rank-gold: #f1c40f;
+    --rank-silver: #95a5a6;
+    --rank-bronze: #cd7f32;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(192,57,43,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 90%, rgba(230,126,34,0.06) 0%, transparent 50%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    font-family: 'Source Serif 4', Georgia, serif;
+    color: var(--text-main);
+  }
+
+  .page-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(12px, 3vw, 14px);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .game-container {
+    width: 100%;
+    max-width: 600px;
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    box-shadow:
+      0 2px 0 #c8b99a,
+      0 8px 32px rgba(44,36,22,0.12),
+      inset 0 1px 0 rgba(255,255,255,0.8);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .game-header {
+    padding: 28px 28px 18px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, #fdfaf4 0%, var(--card-bg) 100%);
+  }
+
+  .game-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(20px, 5vw, 28px);
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    color: var(--text-main);
+    position: relative;
+    display: inline-block;
+  }
+
+  .game-title::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 2px;
+    background: var(--accent2);
+    margin: 8px auto 0;
+    border-radius: 2px;
+  }
+
+  .text-box {
+    padding: 20px 24px;
+    min-height: 180px;
+    border-bottom: 1px solid var(--border);
+    background: #faf7f0;
+  }
+
+  .text-display {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: clamp(14px, 3.5vw, 16px);
+    line-height: 1.85;
+    color: var(--text-main);
+    word-break: break-word;
+  }
+
+  /* Setiap huruf adalah span */
+  .char { display: inline; }
+  .char.correct { color: var(--correct); }
+  .char.wrong   { color: var(--wrong); }
+  .char.current {
+    text-decoration: underline;
+    text-decoration-color: var(--text-main);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+
+  /* Blur pada span individu — kecuali huruf pertama */
+  .char.blurred { filter: blur(4px); }
+
+  .stats-bar {
+    display: flex;
+    align-items: center;
+    padding: 14px 20px;
+    background: var(--stat-bg);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 0;
+  }
+
+  .stat-item {
+    flex: 1;
+    min-width: 80px;
+    text-align: center;
+    font-size: clamp(12px, 3vw, 14px);
+    color: var(--text-dim);
+    font-style: italic;
+    padding: 0 8px;
+    position: relative;
+  }
+
+  .stat-item + .stat-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10%;
+    height: 80%;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .stat-value {
+    font-weight: 600;
+    font-style: normal;
+    color: var(--text-main);
+  }
+
+  .stat-item.danger .stat-value { color: var(--accent); }
+
+  .btn-refresh {
+    background: var(--btn-bg);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 8px 18px;
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--text-main);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+    box-shadow: 0 1px 0 #c8b99a;
+    white-space: nowrap;
+  }
+
+  .btn-refresh:hover { background: var(--btn-hover); }
+  .btn-refresh:active { transform: translateY(1px); box-shadow: none; }
+
+  @media (max-width: 400px) {
+    .stats-bar { flex-direction: column; align-items: stretch; gap: 8px; }
+    .stat-item { text-align: left; }
+    .stat-item + .stat-item::before { display: none; }
+    .btn-refresh { width: 100%; text-align: center; }
+  }
+
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--modal-bg);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(2px);
+  }
+
+  .modal-overlay.show { display: flex; }
+
+  .modal-box {
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    box-shadow: 0 20px 60px rgba(20,15,8,0.4);
+    width: 100%;
+    max-width: 420px;
+    overflow: hidden;
+  }
+
+  .modal-header {
+    background: var(--accent);
+    padding: 14px 20px;
+    color: #fff;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .modal-body { padding: 24px 24px 20px; }
+  .modal-body p { font-size: 15px; color: var(--text-dim); margin-bottom: 16px; font-style: italic; }
+
+  .modal-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 3px;
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 15px;
+    background: var(--bg);
+    color: var(--text-main);
+    outline: none;
+  }
+
+  .modal-input:focus { border-color: var(--accent2); }
+
+  .modal-footer {
+    padding: 14px 20px;
+    background: var(--stat-bg);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .btn-ok {
+    background: var(--text-main);
+    color: var(--bg);
+    border: none;
+    border-radius: 3px;
+    padding: 9px 24px;
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: background 0.2s;
+  }
+
+  .btn-ok:hover { background: #3d3220; }
+
+  .ranking-header {
+    background: linear-gradient(135deg, #2c2416 0%, #4a3c28 100%);
+    padding: 18px 24px;
+    color: #f5f0e8;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 15px;
+    letter-spacing: 0.2em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .ranking-list { padding: 20px 24px; max-height: 320px; overflow-y: auto; }
+
+  .rank-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid #ede5d4;
+    font-size: 14px;
+  }
+
+  .rank-item:last-child { border-bottom: none; }
+
+  .rank-num {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 18px;
+    font-weight: 700;
+    min-width: 28px;
+    text-align: center;
+    color: var(--text-dim);
+  }
+
+  .rank-item:nth-child(1) .rank-num { color: var(--rank-gold); }
+  .rank-item:nth-child(2) .rank-num { color: var(--rank-silver); }
+  .rank-item:nth-child(3) .rank-num { color: var(--rank-bronze); }
+
+  .rank-name { flex: 1; font-weight: 600; }
+
+  .rank-wpm {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 16px;
+    color: var(--accent2);
+    font-weight: 700;
+  }
+
+  .rank-wpm-label { font-size: 11px; color: var(--text-dim); margin-left: 2px; font-style: italic; }
+  .rank-empty { text-align: center; color: var(--text-dim); font-style: italic; padding: 20px 0; font-size: 14px; }
+
+  .timeout-badge {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 10px;
+    text-align: center;
+    display: none;
+    z-index: 5;
+  }
+
+  .timeout-badge.show { display: block; }
+
+  .ranking-list::-webkit-scrollbar { width: 4px; }
+  .ranking-list::-webkit-scrollbar-track { background: var(--stat-bg); }
+  .ranking-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  @media (max-width: 480px) {
+    .game-header { padding: 20px 16px 14px; }
+    .text-box { padding: 16px; }  }
